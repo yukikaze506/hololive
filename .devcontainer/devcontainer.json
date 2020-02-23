@@ -31,7 +31,8 @@
         "eamodio.gitlens",
         "editorconfig.editorconfig",
         "esbenp.prettier-vscode",
-        "ms-vscode.vscode-typescript-tslint-plugin"
+        "ms-vscode.vscode-typescript-tslint-plugin",
+        "tory.unique-id-generator"
     ],
 
     // Use 'forwardPorts' to make a list of ports inside the container available locally.

@@ -1,1 +1,3 @@
+DROP DATABASE IF EXISTS hololive;
+
 CREATE DATABASE hololive;

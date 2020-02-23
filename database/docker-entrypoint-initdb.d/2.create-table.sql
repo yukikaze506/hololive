@@ -2,10 +2,22 @@
 SET CHARACTER_SET_CONNECTION = utf8mb4;
 
 -- Project Name : hololive
--- Date/Time    : 2020/02/23 22:42:14
+-- Date/Time    : 2020/02/24 2:04:05
 -- Author       : yukikaze506
 -- RDBMS Type   : MySQL
 -- Application  : A5:SQL Mk-2
+
+-- Youtube情報
+drop table if exists hololive.youtube cascade;
+
+create table hololive.youtube (
+  id varchar(32) not null comment 'ID'
+  , members_id varchar(32) not null comment 'メンバーID'
+  , channel_id text not null comment 'チャンネルID'
+  , channel_name text comment 'チャンネル名'
+  , subscriber_count integer unsigned comment 'チャンネル登録者数'
+  , constraint youtube_PKC primary key (id)
+) comment 'Youtube情報' ;
 
 -- メンバー
 drop table if exists hololive.members cascade;
@@ -17,8 +29,12 @@ create table hololive.members (
   , name_bilibili text comment '名前(bilibili)'
   , debut_date date comment 'デビュー日'
   , birthday text comment '誕生日:MM-dd'
-  , youtube_channel_id text comment 'YouTubeチャンネルID'
-  , youtube_regist_date date comment 'YouTube登録日'
+  , twitter_account text comment 'Twitterアカウント'
+  , bilibili_account text comment 'bilibiliアカウント'
   , constraint members_PKC primary key (id)
 ) comment 'メンバー' ;
 
+alter table hololive.youtube
+  add constraint youtube_FK1 foreign key (members_id) references hololive.members(id)
+  on delete cascade
+  on update cascade;

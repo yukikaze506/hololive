@@ -1,0 +1,30 @@
+version: '3'
+services:
+    hololive:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: hololive
+        command: sleep infinity
+        restart: always
+        ports:
+            - 62098:4200 # Angular
+            - 19729:8080 # Node
+        volumes:
+            - ../:/workspace
+        depends_on:
+            - hololive-db
+    hololive-db:
+        image: mariadb:10.5
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: kO#@MaV*ie383:Ac71E%
+        volumes:
+            - hololive-db-volume:/var/lib/mariadb/
+            - ../database/mariadb.cnf:/etc/mysql/mariadb.cnf
+            - ../database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+        ports:
+            - '41294:3306' # MariaDB
+volumes:
+    hololive-db-volume:
+        driver: local

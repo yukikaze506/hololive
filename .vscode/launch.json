@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Youtube Crawler",
+            "type": "node",
+            "request": "launch",
+            "protocol": "inspector",
+            "args": ["backend/cronTasks/youtubeCrawler/src/index.ts"],
+            "runtimeArgs": ["-r", "/usr/lib/node_modules/ts-node/register"],
+            "internalConsoleOptions": "openOnSessionStart",
+            "env": {
+                "DEBUG": "true",
+                "TS_NODE_IGNORE": "false"
+            }
+        }
+    ]
+}

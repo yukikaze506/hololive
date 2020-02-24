@@ -1,0 +1,4 @@
+{
+    "gitlens.defaultDateFormat": "YYYY/MM/DD HH:mm:ss",
+    "gitlens.defaultDateShortFormat": "YYYY/MM/DD"
+}

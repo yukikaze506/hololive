@@ -6,7 +6,8 @@
             "type": "node",
             "request": "launch",
             "protocol": "inspector",
-            "args": ["backend/cronTasks/youtubeCrawler/src/index.ts"],
+            "cwd": "${workspaceRoot}/backend/cronTasks/youtubeCrawler",
+            "args": ["src/index.ts"],
             "runtimeArgs": ["-r", "/usr/lib/node_modules/ts-node/register"],
             "internalConsoleOptions": "openOnSessionStart",
             "env": {

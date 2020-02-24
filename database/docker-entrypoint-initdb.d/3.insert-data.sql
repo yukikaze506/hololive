@@ -13,7 +13,7 @@ VALUES
 INSERT INTO
     hololive.members (id, name, name_alphabet, name_bilibili, debut_date, birthday, twitter_account, bilibili_account)
 VALUES
-    ('01E1S3SY23JSVSS7R711EFHAV9', 'AZKi', 'AZKi', 'AZKi', NULL, '07-01', 'AZKi_VDiVA', '389056211');
+    ('01E1S3SY23JSVSS7R711EFHAV9', 'AZKi', 'AZKi', 'AZKi', '2019-05-19', '07-01', 'AZKi_VDiVA', '389056211');
 INSERT INTO
     hololive.youtube (id, members_id, channel_id, channel_name, subscriber_count)
 VALUES
@@ -337,14 +337,14 @@ VALUES
 INSERT INTO
     hololive.members (id, name, name_alphabet, name_bilibili, debut_date, birthday, twitter_account, bilibili_account)
 VALUES
-    ('01E1S3WGYZYQFQDSM1RDWC9S7V', '夜霧', 'Yogiri', '夜霧', NULL, NULL, 'Yogiri_hololive', '427061218');
+    ('01E1S3WGYZYQFQDSM1RDWC9S7V', '夜霧', 'Yogiri', '夜霧', '2019-09-27', NULL, 'Yogiri_hololive', '427061218');
 
 INSERT INTO
     hololive.members (id, name, name_alphabet, name_bilibili, debut_date, birthday, twitter_account, bilibili_account)
 VALUES
-    ('01E1S3WJYC2SYS6A8WABE6BV44', '希薇婭', 'Civia', '希薇婭', NULL, NULL, 'Civia_Hololive', '354411419');
+    ('01E1S3WJYC2SYS6A8WABE6BV44', '希薇婭', 'Civia', '希薇婭', '2019-10-04', NULL, 'Civia_Hololive', '354411419');
 
 INSERT INTO
     hololive.members (id, name, name_alphabet, name_bilibili, debut_date, birthday, twitter_account, bilibili_account)
 VALUES
-    ('01E1S3WMYS4NKYKNYRDYFJK82P', '黒桃影', 'Spade Echo', '黒桃影', NULL, NULL, 'SpadeEcho', '456368455');
+    ('01E1S3WMYS4NKYKNYRDYFJK82P', '黒桃影', 'Spade Echo', '黒桃影', '2019-10-28', NULL, 'SpadeEcho', '456368455');

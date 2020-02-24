@@ -1,15 +1,17 @@
 {
     "name": "youtubecrawler",
     "version": "1.0.0",
+    "repository": "",
     "description": "Youtube APIを使って指定チャンネルの情報を収集する",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start": "ts-node src/index.ts"
     },
     "author": "yukikaze506",
     "license": "MIT",
     "dependencies": {
-        "mariadb": "2.2.0"
+        "mariadb": "2.2.0",
+        "camelcase-keys": "6.1.2"
     },
     "devDependencies": {
         "@types/node": "12.12.9"

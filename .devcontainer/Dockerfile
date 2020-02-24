@@ -18,6 +18,7 @@ RUN apt-get update \
     curl \
     software-properties-common \
     gpg-agent \
+    mysql-client \
     2>&1
 
 # Clean up

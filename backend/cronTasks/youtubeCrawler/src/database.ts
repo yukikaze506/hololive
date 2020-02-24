@@ -7,11 +7,9 @@ export async function getConnection(): Promise<MariaDB.Connection> {
         port: 3306,
         user: 'root',
         password: 'kO#@MaV*ie383:Ac71E%',
-        database: 'hololive',
-        multipleStatements: true
+        database: 'hololive'
     }).catch(error => {
         console.error('DB接続エラー');
-        console.error(error);
 
         throw error;
     });
@@ -20,11 +18,13 @@ export async function getConnection(): Promise<MariaDB.Connection> {
     const originalQuery = connection.query;
 
     connection.query = async (sql: string | MariaDB.QueryOptions, values?: any): Promise<any> => {
-        const result = await originalQuery(sql, values);
+        const result: any[] = await originalQuery(sql, values);
 
-        return camelcase(result, {
-            deep: true
-        });
+        return result.map(data =>
+            camelcase(data, {
+                deep: true
+            })
+        );
     };
 
     return connection;

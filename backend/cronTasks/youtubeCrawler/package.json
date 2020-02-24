@@ -11,9 +11,11 @@
     "license": "MIT",
     "dependencies": {
         "mariadb": "2.2.0",
-        "camelcase-keys": "6.1.2"
+        "camelcase-keys": "6.1.2",
+        "node-fetch": "2.6.0"
     },
     "devDependencies": {
-        "@types/node": "12.12.9"
+        "@types/node": "12.12.9",
+        "@types/node-fetch": "2.5.4"
     }
 }

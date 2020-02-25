@@ -20,11 +20,13 @@ export async function getConnection(): Promise<MariaDB.Connection> {
     connection.query = async (sql: string | MariaDB.QueryOptions, values?: any): Promise<any> => {
         const result: any[] = await originalQuery(sql, values);
 
-        return result.map(data =>
-            camelcase(data, {
-                deep: true
-            })
-        );
+        return Array.isArray(result)
+            ? result.map(data =>
+                  camelcase(data, {
+                      deep: true
+                  })
+              )
+            : result;
     };
 
     return connection;

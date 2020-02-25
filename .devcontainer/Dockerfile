@@ -26,4 +26,9 @@ RUN apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
+# Nodejs
+RUN curl -sL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+RUN sudo apt-get install -y nodejs
+RUN npm install -g prettier@1.19.1 typescript@3.8.2 ts-node@8.6.2 nodemon@2.0.2 tsconfig-paths@3.9.0
+
 # ENV DEBIAN_FRONTEND=dialog

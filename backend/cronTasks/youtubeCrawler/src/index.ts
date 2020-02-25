@@ -1,62 +1,106 @@
 import * as MariaDB from 'mariadb';
 import fetch from 'node-fetch';
 import * as database from './database';
-
-console.log('=== Youtube Crawler 開始 ======================');
-
-var conn: MariaDB.Connection;
+import { YoutubeApiResult, YoutubeList } from './interfaces';
 
 /**
- * 10分に1回くらい実行する感じ
+ * 5分に1回くらい実行する感じ
  */
 async function main(): Promise<void> {
+    var conn: MariaDB.Connection | null = null;
+
+    try {
+        // DBコネクションの取得
+        conn = await database.getConnection();
+
+        // 更新対象の情報取得
+        const youtubeList: YoutubeList[] = await getUpdateTargetData(conn);
+
+        // Youtube APIから情報を取得
+        const apiResult: YoutubeApiResult = await getYoutubeChannelData(youtubeList);
+
+        // DBの更新
+        await setLatestChannelData(conn, apiResult);
+    } catch (error) {
+        console.error('=== Youtube Crawler 処理でエラーが発生しました ===');
+        console.error(error);
+
+        throw error;
+    } finally {
+        if (!!conn) {
+            conn.end();
+        }
+    }
+}
+
+/**
+ * データベースのyoutubeテーブルから更新対象のデータを取得する
+ * @param conn データベースへのコネクション
+ */
+async function getUpdateTargetData(conn: MariaDB.Connection): Promise<YoutubeList[]> {
+    const youtubeList: YoutubeList[] = await conn.query('SELECT id, channel_id FROM youtube;').catch(error => {
+        console.error('Query実行エラー');
+
+        throw error;
+    });
+
+    return youtubeList;
+}
+
+/**
+ * Youtube APIからチャンネル情報を取得する
+ * @param youtubeList 更新対象のデータ
+ */
+async function getYoutubeChannelData(youtubeList: YoutubeList[]): Promise<YoutubeApiResult> {
     const youtubeParts = [
-        // 'brandingSettings',
+        'brandingSettings',
         // 'contentDetails',
         // 'id',
         // 'invideoPromotion',
-        'snippet',
+        // 'snippet'
         'statistics'
         // 'topicDetails'
     ].join(',');
     const apiKey = '';
     const requestUrlBase = `https://www.googleapis.com/youtube/v3/channels?part=${youtubeParts}&key=${apiKey}&id=`;
-
-    conn = await database.getConnection();
-    const youtubeList: { id: string; channelId: string }[] = await conn
-        .query({
-            sql: 'SELECT id, channel_id FROM youtube LIMIT 2;'
-        })
+    const apiResult: YoutubeApiResult = await fetch(
+        `${requestUrlBase}${youtubeList.map(data => data.channelId).join(',')}`,
+        {
+            method: 'GET',
+            compress: true
+        }
+    )
+        .then(result => result.json())
         .catch(error => {
-            console.error('Query実行エラー');
+            console.error('Youtube API実行エラー');
 
             throw error;
         });
 
-    for (const data of youtubeList) {
-        const apiResult = await fetch(`${requestUrlBase}${data.channelId}`, {
-            method: 'GET',
-            compress: true
-        })
-            .then(result => result.json())
+    return apiResult;
+}
+
+/**
+ * Youtube APIから取得したデータをデータベースにセットする
+ * @param apiResult Youtube APIから取得したデータ
+ */
+async function setLatestChannelData(conn: MariaDB.Connection, apiResult: YoutubeApiResult): Promise<void> {
+    for (const item of apiResult.items) {
+        await conn
+            .query('UPDATE youtube SET channel_name = ?, subscriber_count = ? WHERE channel_id = ?;', [
+                item.brandingSettings.channel.title,
+                item.statistics.subscriberCount,
+                item.id
+            ])
             .catch(error => {
-                console.error('Youtube API実行エラー');
-
-                throw error;
+                console.error(`Youtubeテーブル更新エラー[${item.brandingSettings.channel.title}]`);
+                console.error(error);
             });
-
-        console.log(apiResult);
     }
 }
 
-(async () => await main())()
-    .then(() => console.log('=== Youtube Crawler 終了 ======================'))
-    .catch(error => {
-        console.error(error);
-        console.error('=== Youtube Crawler処理でエラーが発生しました ===');
-    })
-    .finally(() => {
-        if (!!conn) {
-            conn.end();
-        }
-    });
+// main関数の実行
+(async () => {
+    console.log('=== Youtube Crawler 開始 ======================');
+    await main();
+})().finally(() => console.log('=== Youtube Crawler 終了 ======================'));

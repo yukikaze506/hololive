@@ -33,13 +33,13 @@
         "esbenp.prettier-vscode",
         "ms-vscode.vscode-typescript-tslint-plugin",
         "tory.unique-id-generator"
-    ],
+    ]
 
     // Use 'forwardPorts' to make a list of ports inside the container available locally.
     // "forwardPorts": [],
 
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "sh .devcontainer/init.sh"
+    // "postCreateCommand": "sh /workspace/.devcontainer/init.sh"
 
     // Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-in-docker.
     // "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],

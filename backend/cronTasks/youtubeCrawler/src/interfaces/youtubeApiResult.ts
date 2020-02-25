@@ -9,6 +9,7 @@ export interface YoutubeApiResult {
             image: YoutubeBanner;
             hints: YoutubeHint[];
         };
+        snippet: Snippet;
         statistics: Statistics;
         etag: string;
     }[];
@@ -51,6 +52,28 @@ interface YoutubeChannel {
 interface YoutubeHint {
     property: string;
     value: string;
+}
+
+interface Snippet {
+    title: string;
+    description: string;
+    publishedAt: string;
+    thumbnails: {
+        default: Thumbnail;
+        medium: Thumbnail;
+        high: Thumbnail;
+    };
+    localized: {
+        title: string;
+        description: string;
+    };
+    country: string;
+}
+
+interface Thumbnail {
+    url: string;
+    width: number;
+    height: number;
 }
 
 interface Statistics {

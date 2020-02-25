@@ -38,11 +38,21 @@ async function main(): Promise<void> {
  * @param conn データベースへのコネクション
  */
 async function getUpdateTargetData(conn: MariaDB.Connection): Promise<YoutubeList[]> {
-    const youtubeList: YoutubeList[] = await conn.query('SELECT id, channel_id FROM youtube;').catch(error => {
-        console.error('Query実行エラー');
+    const youtubeList: YoutubeList[] = await conn
+        .query(
+            `
+            SELECT
+                id,
+                channel_id
+            FROM
+                youtube;
+            `
+        )
+        .catch(error => {
+            console.error('Query実行エラー');
 
-        throw error;
-    });
+            throw error;
+        });
 
     return youtubeList;
 }
@@ -57,7 +67,7 @@ async function getYoutubeChannelData(youtubeList: YoutubeList[]): Promise<Youtub
         // 'contentDetails',
         // 'id',
         // 'invideoPromotion',
-        // 'snippet'
+        'snippet',
         'statistics'
         // 'topicDetails'
     ].join(',');
@@ -85,13 +95,38 @@ async function getYoutubeChannelData(youtubeList: YoutubeList[]): Promise<Youtub
  * @param apiResult Youtube APIから取得したデータ
  */
 async function setLatestChannelData(conn: MariaDB.Connection, apiResult: YoutubeApiResult): Promise<void> {
+    const now = new Date();
+
     for (const item of apiResult.items) {
         await conn
-            .query('UPDATE youtube SET channel_name = ?, subscriber_count = ? WHERE channel_id = ?;', [
-                item.brandingSettings.channel.title,
-                item.statistics.subscriberCount,
-                item.id
-            ])
+            .query(
+                `
+                UPDATE
+                    youtube
+                SET
+                    channel_name = ?,
+                    subscriber_count = ?,
+                    view_count = ?,
+                    banner_image_url = ?,
+                    banner_image_url_mobile = ?,
+                    user_icon = ?,
+                    original_data = ?,
+                    last_updated = ?
+                WHERE
+                    channel_id = ?;
+                `,
+                [
+                    item.brandingSettings.channel.title,
+                    item.statistics.subscriberCount,
+                    item.statistics.viewCount,
+                    item.brandingSettings.image.bannerImageUrl,
+                    item.brandingSettings.image.bannerMobileImageUrl,
+                    item.snippet.thumbnails.medium.url,
+                    item,
+                    now,
+                    item.id
+                ]
+            )
             .catch(error => {
                 console.error(`Youtubeテーブル更新エラー[${item.brandingSettings.channel.title}]`);
                 console.error(error);

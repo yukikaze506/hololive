@@ -2,7 +2,7 @@
 SET CHARACTER_SET_CONNECTION = utf8mb4;
 
 -- Project Name : hololive
--- Date/Time    : 2020/02/24 2:04:05
+-- Date/Time    : 2020/02/25 20:50:00
 -- Author       : yukikaze506
 -- RDBMS Type   : MySQL
 -- Application  : A5:SQL Mk-2
@@ -16,6 +16,12 @@ create table hololive.youtube (
   , channel_id text not null comment 'チャンネルID'
   , channel_name text comment 'チャンネル名'
   , subscriber_count integer unsigned comment 'チャンネル登録者数'
+  , view_count integer unsigned comment '視聴回数'
+  , banner_image_url text comment 'バナー'
+  , banner_image_url_mobile text comment 'バナー(モバイル)'
+  , user_icon text comment 'ユーザーアイコン'
+  , original_data json comment 'オリジナルデータ'
+  , last_updated datetime comment '更新日時'
   , constraint youtube_PKC primary key (id)
 ) comment 'Youtube情報' ;
 

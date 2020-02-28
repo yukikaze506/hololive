@@ -12,6 +12,7 @@ services:
             - 19729:8080 # Node
         volumes:
             - ../:/workspace
+        env_file: ../../hololive.env # YOUTUBE_DATA_API_V3
         depends_on:
             - hololive-db
     hololive-db:

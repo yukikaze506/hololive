@@ -3,6 +3,8 @@ import * as copyDir from 'copy-dir';
 import * as fs from 'fs-extra';
 import * as rimraf from 'rimraf';
 
+const OUTPUT_DIR = 'dist';
+
 main(process.argv[2]);
 
 /**
@@ -11,12 +13,6 @@ main(process.argv[2]);
  * @param targetScript 処理ターゲット
  */
 function main(targetScript: string): void {
-    // 作業ディレクトリの削除
-    rimraf.sync('src');
-
-    // 作業ディレクトリの作成
-    fs.mkdirSync('src');
-
     // Youtube Crawler
     if (!targetScript || targetScript === 'youtubeCrawler') {
         youtubeCrawler();
@@ -27,30 +23,30 @@ function main(targetScript: string): void {
  * Youtube Crawlerのビルド
  */
 function youtubeCrawler(): void {
-    const dir = 'cronTasks/youtubeCrawler';
+    const dir = 'backend/cronTasks/youtubeCrawler';
+    const outputDir = `${OUTPUT_DIR}/${dir}`;
+
+    // 作業ディレクトリの削除
+    rimraf.sync(outputDir);
 
     // 作業ディレクトリの作成
-    fs.mkdirsSync(`src/${dir}`);
+    fs.mkdirsSync(outputDir);
+
+    // ビルド
+    command(`cd ../${dir} && npm run build`);
 
     // ファイルのコピー
-    copyDir.sync(`../backend/${dir}`, `./src/${dir}`, {
-        filter: (stat, filepath, filename) => filepath.indexOf('node_modules') === -1
-    });
+    copyDir.sync(`../${dir}/dist`, `./${outputDir}`);
+
+    // package.jsonのコピー
+    fs.copySync(`../${dir}/package.json`, `./${outputDir}/package.json`);
 
     // npm install & ビルド
-    command(`cd ./src/${dir} && npm install && tsc`);
-
-    // ビルド用ファイル削除
-    rimraf.sync(`src/${dir}/node_modules`);
-
-    // npm install(production)
-    command(`cd ./src/${dir} && npm install --production`);
+    command(`cd ./${outputDir} && npm install --production`);
 
     // 不要なファイルを削除する
-    rimraf.sync(`./src/${dir}/src`);
-    fs.unlinkSync(`./src/${dir}/tsconfig.json`);
-    fs.unlinkSync(`./src/${dir}/package.json`);
-    fs.unlinkSync(`./src/${dir}/package-lock.json`);
+    fs.unlinkSync(`./${outputDir}/package.json`);
+    fs.unlinkSync(`./${outputDir}/package-lock.json`);
 }
 
 /**

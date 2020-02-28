@@ -5,7 +5,8 @@
     "description": "Youtube APIを使って指定チャンネルの情報を収集する",
     "main": "index.js",
     "scripts": {
-        "start": "ts-node src/index.ts"
+        "start": "ts-node src/index.ts",
+        "build": "npm install && tsc"
     },
     "author": "yukikaze506",
     "license": "MIT",

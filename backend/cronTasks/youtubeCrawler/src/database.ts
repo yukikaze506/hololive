@@ -3,11 +3,11 @@ import * as MariaDB from 'mariadb';
 
 export async function getConnection(): Promise<MariaDB.Connection> {
     const connection: MariaDB.Connection = await MariaDB.createConnection({
-        host: 'hololive-db',
-        port: 3306,
-        user: 'root',
-        password: 'kO#@MaV*ie383:Ac71E%',
-        database: 'hololive'
+        host: process.env.MARIA_DB_HOST,
+        port: +(process.env.MARIA_DB_PORT || 3306),
+        user: process.env.MARIA_DB_USER,
+        password: process.env.MARIA_DB_PASSWORD,
+        database: process.env.MARIA_DB_DATABASE
     }).catch(error => {
         console.error('DB接続エラー');
 

@@ -71,7 +71,7 @@ async function getYoutubeChannelData(youtubeList: YoutubeList[]): Promise<Youtub
         'statistics'
         // 'topicDetails'
     ].join(',');
-    const apiKey = '';
+    const apiKey = process.env.YOUTUBE_DATA_API_V3;
     const requestUrlBase = `https://www.googleapis.com/youtube/v3/channels?part=${youtubeParts}&key=${apiKey}&id=`;
     const apiResult: YoutubeApiResult = await fetch(
         `${requestUrlBase}${youtubeList.map(data => data.channelId).join(',')}`,

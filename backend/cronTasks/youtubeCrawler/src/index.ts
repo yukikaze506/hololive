@@ -1,5 +1,7 @@
 import * as MariaDB from 'mariadb';
 import fetch from 'node-fetch';
+import { interval, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import * as database from './database';
 import { YoutubeApiResult, YoutubeList } from './interfaces';
 
@@ -7,6 +9,8 @@ import { YoutubeApiResult, YoutubeList } from './interfaces';
  * 5分に1回くらい実行する感じ
  */
 async function main(): Promise<void> {
+    console.log(`[${new Date()}] === Youtube Crawler 開始 ======================`);
+
     var conn: MariaDB.Connection | null = null;
 
     try {
@@ -22,13 +26,17 @@ async function main(): Promise<void> {
         // DBの更新
         await setLatestChannelData(conn, apiResult);
     } catch (error) {
-        console.error('=== Youtube Crawler 処理でエラーが発生しました ===');
         console.error(error);
+        console.error('=== Youtube Crawler 処理でエラーが発生しました ===');
 
         throw error;
     } finally {
-        if (!!conn) {
-            conn.end();
+        try {
+            if (!!conn) {
+                conn.end();
+            }
+        } finally {
+            console.log(`[${new Date()}] === Youtube Crawler 終了 ======================`);
         }
     }
 }
@@ -135,7 +143,15 @@ async function setLatestChannelData(conn: MariaDB.Connection, apiResult: Youtube
 }
 
 // main関数の実行
-(async () => {
-    console.log('=== Youtube Crawler 開始 ======================');
-    await main();
-})().finally(() => console.log('=== Youtube Crawler 終了 ======================'));
+// 5分ごとに定期実行
+const delayTime = 1000 * +(process.env.YOUTUBE_CRAWLER_DELAY_TIME || 300);
+const cronTask = interval(delayTime).pipe(
+    tap(async () => main()),
+    catchError(error => {
+        setTimeout(() => cronTask.subscribe(), delayTime);
+
+        return throwError(error);
+    })
+);
+
+cronTask.subscribe();

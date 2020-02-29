@@ -6,7 +6,7 @@
     "main": "index.js",
     "scripts": {
         "start": "ts-node src/index.ts",
-        "build": "npm install && tsc"
+        "build": "npm install && rm -rf dist && tsc"
     },
     "author": "yukikaze506",
     "license": "MIT",

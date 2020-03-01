@@ -9,7 +9,21 @@
             "cwd": "${workspaceRoot}/backend/cronTasks/youtubeCrawler",
             "args": ["src/index.ts"],
             "runtimeArgs": ["-r", "/usr/lib/node_modules/ts-node/register"],
-            "internalConsoleOptions": "openOnSessionStart",
+            "console": "integratedTerminal",
+            "env": {
+                "DEBUG": "true",
+                "TS_NODE_IGNORE": "false"
+            }
+        },
+        {
+            "name": "Web API",
+            "type": "node",
+            "request": "launch",
+            "protocol": "inspector",
+            "cwd": "${workspaceRoot}/backend/webAPI",
+            "args": ["src/index.ts"],
+            "runtimeArgs": ["-r", "/usr/lib/node_modules/ts-node/register"],
+            "console": "integratedTerminal",
             "env": {
                 "DEBUG": "true",
                 "TS_NODE_IGNORE": "false"

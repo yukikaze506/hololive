@@ -17,6 +17,11 @@ function main(targetScript: string): void {
     if (!targetScript || targetScript === 'youtubeCrawler') {
         youtubeCrawler();
     }
+
+    // Web API
+    if (!targetScript || targetScript === 'webAPI') {
+        webAPI();
+    }
 }
 
 /**
@@ -24,6 +29,36 @@ function main(targetScript: string): void {
  */
 function youtubeCrawler(): void {
     const dir = 'backend/cronTasks/youtubeCrawler';
+    const outputDir = `${OUTPUT_DIR}/${dir}`;
+
+    // 作業ディレクトリの削除
+    rimraf.sync(outputDir);
+
+    // 作業ディレクトリの作成
+    fs.mkdirsSync(outputDir);
+
+    // ビルド
+    command(`cd ../${dir} && npm run build`);
+
+    // ファイルのコピー
+    copyDir.sync(`../${dir}/dist`, `./${outputDir}`);
+
+    // package.jsonのコピー
+    fs.copySync(`../${dir}/package.json`, `./${outputDir}/package.json`);
+
+    // npm install & ビルド
+    command(`cd ./${outputDir} && npm install --production`);
+
+    // 不要なファイルを削除する
+    fs.unlinkSync(`./${outputDir}/package.json`);
+    fs.unlinkSync(`./${outputDir}/package-lock.json`);
+}
+
+/**
+ * Web APIのビルド
+ */
+function webAPI(): void {
+    const dir = 'backend/webAPI';
     const outputDir = `${OUTPUT_DIR}/${dir}`;
 
     // 作業ディレクトリの削除

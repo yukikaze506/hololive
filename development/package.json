@@ -6,7 +6,8 @@
     "main": "scripts/scripts.ts",
     "scripts": {
         "build": "ts-node scripts.ts",
-        "build:youtubeCrawler": "ts-node scripts.ts youtubeCrawler"
+        "build:youtubeCrawler": "ts-node scripts.ts youtubeCrawler",
+        "build:webAPI": "ts-node scripts.ts webAPI"
     },
     "author": "yukikaze506",
     "license": "MIT",

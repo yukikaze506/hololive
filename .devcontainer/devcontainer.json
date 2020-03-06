@@ -21,7 +21,8 @@
         "javascript.referencesCodeLens.enabled": true,
         "npm.enableScriptExplorer": true,
         "workbench.colorCustomizations": {
-            "activityBar.background": "#026e00",
+            "activityBar.background": "#74cfe2",
+            "activityBar.foreground": "#2e2e2e",
             "sideBar.border": "#336791"
         }
     },

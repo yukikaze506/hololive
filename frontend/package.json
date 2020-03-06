@@ -3,8 +3,8 @@
     "version": "1.0.0",
     "scripts": {
         "start": "ng serve --aot",
-        "build": "ng run hololive:app-shell:production",
-        "start:dist": "npx node-static ./dist/hololive/browser --spa --port=80",
+        "build": "rm -rf dist && ng run hololive:app-shell:production",
+        "start:dist": "npx node-static ./dist/browser --spa --port=80 && echo http://127.0.0.1/hololive/",
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e"

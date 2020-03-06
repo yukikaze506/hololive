@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/hololive/browser",
+                        "outputPath": "dist/browser/hololive",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -35,6 +35,7 @@
                                     "with": "src/environments/environment.prod.ts"
                                 }
                             ],
+                            "baseHref": "/hololive/",
                             "optimization": true,
                             "outputHashing": "all",
                             "sourceMap": false,
@@ -111,7 +112,7 @@
                 "server": {
                     "builder": "@angular-devkit/build-angular:server",
                     "options": {
-                        "outputPath": "dist/hololive/server",
+                        "outputPath": "dist/server/hololive",
                         "main": "src/main.server.ts",
                         "tsConfig": "tsconfig.server.json"
                     },

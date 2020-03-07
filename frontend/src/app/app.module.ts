@@ -7,11 +7,12 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { HttpInterceptorService } from './services/interceptor/http-interceptor.service';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [AppComponent, SideNavComponent],
     imports: [
         BrowserModule.withServerTransition({ appId: 'serverApp' }),
         AppRoutingModule,

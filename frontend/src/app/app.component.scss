@@ -1,0 +1,22 @@
+@import '../styles.constant';
+
+.container {
+    display: grid;
+    grid-template-columns: $side-nav-width auto;
+    max-width: $contents-max-width;
+    margin: 0 auto;
+
+    .app-side-nav {
+        grid-column: 1/2;
+        position: fixed;
+        top: 0;
+        overflow-y: auto;
+        width: $side-nav-width;
+        height: 100vh;
+    }
+
+    .contents {
+        grid-column: 2/3;
+        overflow: hidden;
+    }
+}

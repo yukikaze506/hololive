@@ -22,7 +22,15 @@
 
         .name {
             color: $foreground;
-            //color: #74cfe2;
+        }
+    }
+
+    &.active {
+        background-color: #74cfe2;
+
+        .name {
+            font-weight: bold;
+            color: #fff;
         }
     }
 }

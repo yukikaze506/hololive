@@ -11,10 +11,16 @@ import { SideNavService } from './side-nav.service';
 export class SideNavComponent implements OnInit {
     @HostBinding('class.app-side-nav') hostClass = true;
 
+    /**
+     * メンバー情報
+     */
     members$: Observable<Members[]> = this.sideNavService.member$;
 
     constructor(private sideNavService: SideNavService) {}
 
+    /**
+     * 初期化
+     */
     ngOnInit(): void {
         this.sideNavService.fetchMembers();
     }
@@ -28,6 +34,10 @@ export class SideNavComponent implements OnInit {
         return [member.name, member.nameAlphabet, member.nameBilibili].filter((x, i, self) => !!x && self.indexOf(x) === i).join('/');
     }
 
+    /**
+     * 英名からメンバーのルート情報を生成する
+     * @param member 対象のメンバー
+     */
     generateRoute(member: Members): string {
         return member.nameAlphabet.replace(' ', '');
     }

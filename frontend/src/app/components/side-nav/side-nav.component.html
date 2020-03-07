@@ -1,1 +1,5 @@
-<p>side-nav works!</p>
+<a class="member" *ngFor="let member of members$ | async" [title]="generateTitle(member)"
+    [routerLink]="generateRoute(member)" routerLinkActive="active">
+    <img class="icon" [src]="member.youtube.userIcon" loading="lazy">
+    <span class="name">{{ member.name }}</span>
+</a>

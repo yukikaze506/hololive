@@ -1,0 +1,28 @@
+@import '../../../styles.constant';
+
+.member {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    cursor: pointer;
+    text-decoration: none;
+
+    .icon {
+        border-radius: 50%;
+        width: 64px;
+    }
+
+    .name {
+        margin-left: 16px;
+        color: $foreground-secondary;
+    }
+
+    &:hover {
+        font-weight: bold;
+
+        .name {
+            color: $foreground;
+            //color: #74cfe2;
+        }
+    }
+}

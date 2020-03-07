@@ -6,7 +6,7 @@ import { Environment } from '.';
 
 export const environment: Environment = {
     production: false,
-    backendURL: 'http://127.0.0.1:8080/api/'
+    backendURL: 'http://127.0.0.1:19729/api/'
 };
 
 /*

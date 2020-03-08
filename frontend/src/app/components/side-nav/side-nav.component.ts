@@ -24,21 +24,4 @@ export class SideNavComponent implements OnInit {
     ngOnInit(): void {
         this.sideNavService.fetchMembers();
     }
-
-    /**
-     * 日本語・アルファベット・中国語名をスラッシュで結合する
-     * 名称未設定・重複している名称は除く
-     * @param member 対象のメンバー
-     */
-    generateTitle(member: Members): string {
-        return [member.name, member.nameAlphabet, member.nameBilibili].filter((x, i, self) => !!x && self.indexOf(x) === i).join('/');
-    }
-
-    /**
-     * 英名からメンバーのルート情報を生成する
-     * @param member 対象のメンバー
-     */
-    generateRoute(member: Members): string {
-        return member.nameAlphabet.replace(' ', '');
-    }
 }

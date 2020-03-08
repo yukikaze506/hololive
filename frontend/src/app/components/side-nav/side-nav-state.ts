@@ -1,5 +1,13 @@
 export interface SideNavState {
+    /**
+     * メンバー情報
+     */
     members: Members[];
+
+    /**
+     * 現在選択されているメンバー
+     */
+    currentMember: Members | null;
 }
 
 export interface Members {
@@ -12,6 +20,8 @@ export interface Members {
     twitterAccount: string;
     bilibiliAccount: string | null;
     youtube: Youtube;
+    route: string;
+    title: string;
 }
 
 export interface Youtube {
@@ -27,5 +37,6 @@ export interface Youtube {
 }
 
 export const sideNavInitialSteta: SideNavState = {
-    members: []
+    members: [],
+    currentMember: null
 };

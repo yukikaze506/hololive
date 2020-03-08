@@ -12,6 +12,11 @@ export class SideNavStoreService extends BasicStore<SideNavState> {
      */
     readonly members$: Observable<Members[]> = this.select<Members[]>((state: SideNavState) => state.members);
 
+    /**
+     * 現在選択されているメンバー
+     */
+    readonly currentMember$: Observable<Members | null> = this.select<Members | null>((state: SideNavState) => state.currentMember);
+
     constructor() {
         super(sideNavInitialSteta);
     }
@@ -22,5 +27,17 @@ export class SideNavStoreService extends BasicStore<SideNavState> {
      */
     updateMembers(members: Members[]): void {
         this.update((state: SideNavState) => ({ ...state, members }));
+    }
+
+    /**
+     * 現在のメンバーを更新する
+     * @param currentRoute 現在のルート
+     */
+    updateCurrentMember(currentRoute: string): void {
+        this.update((state: SideNavState) => {
+            const currentMember: Members | undefined = state.members.find(member => member.route === currentRoute);
+
+            return { ...state, currentMember: !!currentMember ? currentMember : null };
+        });
     }
 }

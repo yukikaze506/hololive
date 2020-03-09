@@ -1,4 +1,1 @@
-<div *ngIf="member$ | async as member">
-    <img class="header-img" [src]="member.youtube.bannerImageUrl">
-    tokino-sora works! {{ member.name }}
-</div>
+<app-member [member]="member$ | async"></app-member>

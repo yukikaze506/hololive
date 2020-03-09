@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Members } from '../../side-nav/side-nav-state';
 import { SideNavService } from '../../side-nav/side-nav.service';
+import { ContentsBase } from '../contents-base';
 
 @Component({
     selector: 'app-tokino-sora',
     templateUrl: './tokino-sora.component.html',
     styleUrls: ['./tokino-sora.component.scss']
 })
-export class TokinoSoraComponent implements OnInit {
-    readonly member$: Observable<Members | null> = this.sideNavService.currentMember$;
-
-    constructor(private sideNavService: SideNavService) {}
+export class TokinoSoraComponent extends ContentsBase implements OnInit {
+    constructor(sideNavService: SideNavService) {
+        super(sideNavService);
+    }
 
     ngOnInit(): void {}
 }
